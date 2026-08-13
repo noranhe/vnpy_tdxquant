@@ -112,6 +112,10 @@ class TdxDatafeed(BaseDatafeed):
             output(f"TdxQuant查询K线数据失败：{ex}")
             return []
 
+        if "Open" not in raw:
+            output(f"TdxQuant查询K线数据失败：未返回K线 {req.vt_symbol}")
+            return []
+
         open_df = raw["Open"]
         adjustment: timedelta = INTERVAL_ADJUSTMENT[req.interval]    # type: ignore[index]
         data: list[BarData] = []
